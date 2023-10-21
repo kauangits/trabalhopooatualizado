@@ -262,7 +262,7 @@ public class GerenciarConta {
               
               break;
                     case 5:
-                    sairDoMenuDeOperacoes = true; // Sair do menu de operações
+                    sairDoMenuDeOperacoes = true; 
                     break;
                 default:
                     System.out.println("Opção inválida.");
