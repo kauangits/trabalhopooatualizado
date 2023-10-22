@@ -6,11 +6,12 @@ import java.util.Scanner;
 public class GerenciarConta {
 
     private boolean deixa;
-
+    private Investimentos investimentos=new Investimentos();
     private Gerente g1;
     private List<ContaBancaria> contas;
     private ContaBancaria conta;
- 
+    private  Pagamentos pagamentos = new Pagamentos(); 
+    
     Scanner teclado = new Scanner(System.in);
 
     public GerenciarConta(Gerente g1) {
@@ -90,6 +91,45 @@ public class GerenciarConta {
         return false;
     }
 
+    public boolean senhaDiferente(int senha) {
+        for (ContaBancaria c : contas) {
+            if (c.getSenha()==senha) {
+                System.out.println("senha ja existe digite novamente");
+                int s = teclado.nextInt();
+                if (c.getSenha()!=s) {
+                    System.out.println("sua senha e valido");
+                    return true;
+                }
+
+            } else {
+                System.out.println("sua senha esta correto");
+                return true;
+            }
+
+        }
+        return false;
+    }
+   
+   public boolean codigoDiferente(int codigo) {
+        for (ContaBancaria c : contas) {
+            if (c.getCodigo()==codigo) {
+                System.out.println("codigo ja existe digite novamente");
+                int codi = teclado.nextInt();
+                if (c.getCodigo()!=codi) {
+                    System.out.println("seu codigo e valido");
+                    return true;
+                }
+
+            } else {
+                System.out.println("seu codigo esta correto");
+                return true;
+            }
+
+        }
+        return false;
+    }
+   
+   
     public ContaBancaria encontrarConta(int codigo) {
         for (ContaBancaria c : contas) {
             if (c.getCodigo() == codigo) {
@@ -106,14 +146,7 @@ public class GerenciarConta {
     }
 
     public void exibirInfo() {
-        for (ContaBancaria conta : contas) {
-            Usuario usuario = conta.getUsuario();
-            if (usuario != null) {
-                System.out.println("Informações do usuário: " + usuario.toString());
-            } else {
-                System.out.println("Usuário não encontrado para a conta ");
-            }
-        }
+    
     }
 
     public void Encerrar(ContaBancaria contaEncerrar) {
@@ -169,11 +202,29 @@ public class GerenciarConta {
 
     }
 
-    public void Extrato() {
-        System.out.println("Extrato da conta do:" + conta.getLogin());
-        for (Transacoes transacoes : histransacoes) {
-            System.out.println(transacoes.toString());
-        }
+   //valor das contas que ele pagou
+   
+    public void Extrato(ContaBancaria conta,double valorAgua,double valorEnergia,double valorInternet) {
+     if(valorAgua==0.0){
+        System.out.println("valor de agua nao foi pago");
+     }else{
+        System.out.println("valor da conta de agua paga"+valorAgua);
+     }
+       if(valorEnergia==0.0){
+        System.out.println("valor de energia nao foi pago");
+     }else{
+        
+          System.out.println("valor de enerigia"+valorEnergia);
+     }
+    
+     if(valorAgua==0.0){
+        System.out.println("valor de internet nao foi pago");
+     }else{ 
+          System.out.println("valor de internet"+valorInternet);
+     }
+  System.out.println("saldo atual"+conta.getSaldo());
+
+        
     }
  
     /*public void realizarOperacoes(ContaBancaria conta) {
@@ -225,7 +276,7 @@ public class GerenciarConta {
 
         scanner.close();
     }*/
-    public void realizarOperacoes(ContaBancaria contaOperacao,Scanner sc)throws SaldoInsuficienteException, ValorInvalidoException,ContaNaoExisteException {
+    public boolean realizarOperacoes(ContaBancaria contaOperacao,Scanner sc)throws SaldoInsuficienteException, ValorInvalidoException,ContaNaoExisteException {
         boolean sairDoMenuDeOperacoes = false;
        Scanner scanner = new Scanner(System.in);
         while (!sairDoMenuDeOperacoes) {
@@ -259,18 +310,34 @@ public class GerenciarConta {
 
               break;
                 case 4:
-              
-              break;
-                    case 5:
-                    sairDoMenuDeOperacoes = true; 
-                    break;
+                 System.out.println("valor do investimento");
+                investimentos.calcularRetornoInvestido(contaOperacao);
+
+                break;
+                case 5: 
+                 
+                sairDoMenuDeOperacoes = pagamentos.menuPagamentos(contaOperacao);
+
+                break;
+                case 6:   
+                
+                
+                Extrato(contaOperacao,pagamentos.getValorAgua(),pagamentos.getValorEnergia(),pagamentos.getValorInternet());
+
+                break;
+                case 7:
+                    sairDoMenuDeOperacoes = false; 
+                  return sairDoMenuDeOperacoes;
+
                 default:
                     System.out.println("Opção inválida.");
                     break;
             }
      
         }
-    scanner.close();
+     scanner.close();
+        return sairDoMenuDeOperacoes;
+       
     }
 
     private static int solicitarOpcao(Scanner sc) {
@@ -279,4 +346,11 @@ public class GerenciarConta {
       
     }
 
+    @Override
+    public String toString() {
+        return "GerenciarConta [contas=" + contas + "]";
+    }
+
+
+    
 }

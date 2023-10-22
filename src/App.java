@@ -23,8 +23,9 @@ Gerente g1 = new Gerente("234433", "carlos", "123", "12042004", "gerente", null)
 GerenciarConta geren1 = new GerenciarConta(g1);
 AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
  ContaBancaria contaAtual = null;
- 
-       while(true){
+ boolean estaLogado = false;
+ boolean sairDoMenuPrincipal = false;
+       while(!sairDoMenuPrincipal){
      exibirMenu();
       Scanner sc = new Scanner(System.in);
      int opcao=solicitarOpcao(sc);
@@ -49,8 +50,10 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
              if(geren1.getQuantidadeDeContas()<2){
               geren1.criarConta(novaconta);
               contaAtual=novaconta;
+           System.out.println("cria a primeira conta");
+             
             }else{
-              if(geren1.loginDiferente(login)==true){
+              if(geren1.loginDiferente(login)&&geren1.senhaDiferente(senha)&&geren1.codigoDiferente(codigo)){
                 geren1.criarConta(novaconta);
              System.out.println("conta criada");
              contaAtual = novaconta; 
@@ -68,20 +71,33 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
            
             break;
                   case 3:
-        
+                if(contaAtual!=null){
+                  if(!estaLogado){
                   System.out.println("digite o codigo da conta");
              int c = sc.nextInt();     
              ContaBancaria conta = geren1.encontrarConta(c);
              autorizaçao.verificarSenha(conta);
              contaAtual = conta;
              System.out.println("voce entrou na conta");
-                 break;
+               estaLogado = true;     
+            }else{
+                    System.out.println("ja esta logado em uma conta");
+                  }
+
+              
+            }else{
+                 System.out.println("nao existe nenhuma conta");
+                }    
+             break;
                case 4:
              if(contaAtual!=null){
-    
-             geren1.realizarOperacoes(contaAtual,sc);   
+                if(estaLogado){
+             sairDoMenuPrincipal=geren1.realizarOperacoes(contaAtual,sc);  
+                }else{
+                System.out.println("nao esta logado");
+                } 
         }else{
-                System.out.println("voce nao entrou na conta");
+                System.out.println("nao existe nenhuma conta");
              }
              break;
                /*   if(autorizaçao.caso){
@@ -99,18 +115,25 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
         if(contaAtual!=null){
         geren1.Encerrar(contaAtual);
           }
-
+   
         break;
         case 6:
         if(contaAtual==null){
        System.out.println("nao tem conta para sair");
-        }else{
+        }
+        if(estaLogado==true){
         System.out.println("sair da conta");
-          contaAtual = null;
-        }        
+         
+       estaLogado = false;
+        }else{
+          System.out.println("nenhuma conta esta logada");
+        }       
         break;
 
-        case 7:
+       case 7:
+         System.out.println(geren1.toString());
+       break;
+        case 8:
                     System.out.println("Saindo do programa.");
                     System.exit(0);
                     break;

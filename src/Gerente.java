@@ -3,12 +3,13 @@ public class Gerente extends Usuario{
 //classe gerente só vai chamar os métodos de GerenciarConta
     private String cargo;
     private GerenciarConta gerencia;
-    
+  
     public Gerente(String cpf, String nome, String endereco, String dataNascimento, String cargo,
             GerenciarConta gerencia) {
         super(cpf, nome, endereco, dataNascimento);
         this.cargo = cargo;
         this.gerencia = gerencia;
+        
     }
 
     public String getCargo() {

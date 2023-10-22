@@ -1,7 +1,5 @@
 
-
-
-public class ContaBancaria extends AutorizacaoSeguranca {
+public class ContaBancaria  {
 
     private int codigo;
     private String login;

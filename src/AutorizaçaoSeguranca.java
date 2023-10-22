@@ -28,10 +28,10 @@ class AutorizacaoSeguranca {
     }
    return false;
   }
- boolean caso=false;
+ 
   public boolean verificarSenha(ContaBancaria conta) {
     int tentativas = 3;
-    Scanner sc = new Scanner(System.in);
+    
 
     while (tentativas > 0) {
         System.out.println("Digite sua senha: ");
@@ -39,16 +39,16 @@ class AutorizacaoSeguranca {
        
         if (s == conta.getSenha()) {
             System.out.println("Senha correta, Bem vindo");
-           caso = true;
+          
             return true;
         
         } else {
             System.out.println("Senha errada, tentativas restantes: " + (tentativas - 1));
             tentativas--;
         }
-     sc.close();
+    
     }
-
+   sc.close();
     System.out.println("Limite de tentativas excedido. A conta está bloqueada.");
     return false;
 
