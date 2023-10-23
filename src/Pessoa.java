@@ -1,17 +1,14 @@
-
-public class Usuario extends Pessoa {
-    
-    public Usuario(String cpf, String nome, String endereco, String dataNascimento) {
-        super(cpf, nome, endereco, dataNascimento);
-    }
-
+public abstract class Pessoa {
     private String cpf;
     private String nome;
     private String endereco;
     private String dataNascimento;
-    
-    
-
+    public Pessoa(String cpf, String nome, String endereco, String dataNascimento) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.dataNascimento = dataNascimento;
+    }
     public String getCpf() {
         return cpf;
     }
@@ -36,12 +33,7 @@ public class Usuario extends Pessoa {
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+  
 
-    @Override
-    public String toString() {
-        return "Usuario [cpf=" + cpf + ", nome=" + nome + ", endereco=" + endereco + ", dataNascimento="
-                + dataNascimento + "]";
-    }
-   
-    
+
 }

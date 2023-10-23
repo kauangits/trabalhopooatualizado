@@ -46,8 +46,12 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
                 int senha = sc.nextInt();
                 System.out.println("digite o login");
                 String login = sc.next();    
-                ContaBancaria novaconta = new ContaBancaria(codigo, login, senha, usuariopelonome);
-             if(geren1.getQuantidadeDeContas()<2){
+         
+                 if(!geren1.naoRepetirCodigo(codigo)){
+            
+              ContaBancaria novaconta = new ContaBancaria(codigo, login, senha, usuariopelonome);
+            
+                if(geren1.getQuantidadeDeContas()<2){
               geren1.criarConta(novaconta);
               contaAtual=novaconta;
            System.out.println("cria a primeira conta");
@@ -60,13 +64,14 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
             }else{
                 System.out.println("mesmo login");
               }
+            
              }
-           
-           
+            
+            }
             }else{
                 System.out.println("usuario nao encontrado");
             }
-           
+          
            
            
             break;
@@ -133,7 +138,15 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
        case 7:
          System.out.println(geren1.toString());
        break;
-        case 8:
+       case 8:
+       
+       break;
+         case 9:
+       
+       break;
+
+
+       case 10:
                     System.out.println("Saindo do programa.");
                     System.exit(0);
                     break;

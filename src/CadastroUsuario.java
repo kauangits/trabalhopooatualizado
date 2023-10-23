@@ -43,10 +43,18 @@ public class CadastroUsuario  {
         System.out.println("data de nascimento valida");
        break; 
     }
-
+}
+    while(ValidaCpf(Cpf)==false){
+        System.out.println("seu cpf esta incorreto");
+        System.out.println("digite novamente");
+        Cpf = teclado.nextLine();
+        if(ValidaCpf(Cpf)){
+           System.out.println("cpf correto");
+          break; 
+        }
 
    }
-    
+
 
         if((!existirUsuarioCpf(Cpf))&&(!existirUsuarioEndereco(endereco))&&(!existirUsuarioNome(nome))){
       Usuario usuario = new Usuario(Cpf, nome, endereco, nascimento);
@@ -162,6 +170,8 @@ public class CadastroUsuario  {
         }
         return false;
     }
+  
+
    public boolean existirUsuarioEndereco(String endereco) {
         for (Usuario usuario : usuarios) {
             if (usuario.getEndereco().equals(endereco)) {

@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class GerenciarConta {
     private ContaBancaria conta;
     private  Pagamentos pagamentos = new Pagamentos(); 
     
+
     Scanner teclado = new Scanner(System.in);
 
     public GerenciarConta(Gerente g1) {
@@ -52,15 +54,7 @@ public class GerenciarConta {
         this.deixa = deixa;
     }
 
-    public boolean Permitir() {
-        if (deixa == true) {
-            System.out.println("pode criar sua conta");
-            return true;
-        } else {
-            System.out.println("não pode criar sua conta");
-        }
-        return false;
-    }
+
 
     public void criarConta(ContaBancaria conta) {
 
@@ -158,52 +152,50 @@ public class GerenciarConta {
         }
     }
 
-    public List<Transacoes> histransacoes = new ArrayList<>();
+  
+  
+
+public List<Transacoes> histransacoes = new ArrayList<>();
 
     public List<Transacoes> getHistransacoes() {
         return histransacoes;
     }
 
-    public void Transacao(ContaBancaria destinatario, double valor, Transacoes transacoes)
+    public void Transacoes(double valor, ContaBancaria origem)
             throws ContaNaoExisteException, ValorInvalidoException, SaldoInsuficienteException {
 
         if (valor <= 0) {
             throw new ValorInvalidoException("Valor inválido para transação");
         }
 
-        if (!contas.contains(destinatario)) {
+
+       
+        System.out.print("Digite o código da conta de destino: ");
+        int codigoDestino = teclado.nextInt();
+        ContaBancaria contaDestino = encontrarConta(codigoDestino);
+        if (!contas.contains(contaDestino)) {
             throw new ContaNaoExisteException("Conta destinatária inexistente");
         }
 
-        if (conta.getSaldo() < valor) {
+        if (origem.getSaldo() < valor) {
             throw new SaldoInsuficienteException("Saldo insuficiente para transação");
         }
 
-        conta.setSaldo(conta.getSaldo() - valor);
-        destinatario.setSaldo(destinatario.getSaldo() + valor);
+        origem.setSaldo(origem.getSaldo() - valor);
+        contaDestino.setSaldo(contaDestino.getSaldo() + valor);
+        System.out.println(contaDestino.getSaldo());
 
-        /*
-         * if( getSaldo() >= valor){
-         * if(contas.contains(destinatario)){
-         * setSaldo(getSaldo() - valor);
-         * destinatario.setSaldo(destinatario.getSaldo()+valor);
-         * System.out.println("Transação ralizada com sucesso");
-         * }
-         * else{
-         * System.out.println("Essa conta não existe");
-         * }
-         * }else{
-         * System.out.println("Saldo insufiecente para realizar transação");
-         * }
-         */
-
-        histransacoes.add(transacoes);
+        histransacoes.add(new Transacoes(origem, contaDestino, valor));
         System.out.println("Transação ralizada com sucesso");
 
+        
     }
 
-   //valor das contas que ele pagou
-   
+    public void adicionarTransacao(Transacoes transacao) {
+        histransacoes.add(transacao);
+    }
+
+
     public void Extrato(ContaBancaria conta,double valorAgua,double valorEnergia,double valorInternet) {
      if(valorAgua==0.0){
         System.out.println("valor de agua nao foi pago");
@@ -217,79 +209,31 @@ public class GerenciarConta {
           System.out.println("valor de enerigia"+valorEnergia);
      }
     
-     if(valorAgua==0.0){
+     if(valorInternet==0.0){
         System.out.println("valor de internet nao foi pago");
      }else{ 
           System.out.println("valor de internet"+valorInternet);
      }
-  System.out.println("saldo atual"+conta.getSaldo());
-
+  System.out.println("saldo atual"+conta.getSaldo()); 
         
     }
- 
-    /*public void realizarOperacoes(ContaBancaria conta) {
-        Scanner scanner = new Scanner(System.in);
-  
-        while (true) {
-
-            
-            try {
-                System.out.println("Escolha a operação:");
-                System.out.println("1. Depósito");
-                System.out.println("2. Saque");
-                System.out.println("3. Transação");
-                System.out.println("4. Ver informações");
-                System.out.println("5. Sair");
-
-                int opcaoOperacoes = scanner.nextInt();
-
-                if (opcaoOperacoes==1) {
-                    System.out.print("Digite o valor do depósito: ");
-                    double valor = scanner.nextDouble();
-                    conta.depositar(valor);
-                    System.out.println("Depósito realizado com sucesso.");
-                } else if (opcaoOperacoes == 2) {
-                    System.out.print("Digite o valor do saque: ");
-                    double valor = scanner.nextDouble();
-                    conta.sacar(valor);
-                    System.out.println("Saque realizado com sucesso.");
-                } else if (opcaoOperacoes == 3) {
-                    System.out.print("Digite o valor da transação: ");
-                    double valor = scanner.nextDouble();
-                    Transacao(null, valor, null);
-                } else if (opcaoOperacoes == 4) {
-                    System.out.println("login: " + conta.getLogin());
-                    System.out.println("codigo da conta: " + conta.getCodigo());
-                    System.out.println("cpf" + conta.getUsuario().getCpf());
-                    System.out.println("saldo:" + conta.getSaldo());
-                } else if (opcaoOperacoes == 5) {
-                    System.out.println("Saindo do menu.");
-                    
-                    break;
-                } else {
-                    System.out.println("Opção inválida. Tente novamente.");
-                }
-            } catch (ValorInvalidoException | SaldoInsuficienteException | ContaNaoExisteException e) {
-                System.err.println("Erro: " + e.getMessage());
-            }
-        }
-
-        scanner.close();
-    }*/
     public boolean realizarOperacoes(ContaBancaria contaOperacao,Scanner sc)throws SaldoInsuficienteException, ValorInvalidoException,ContaNaoExisteException {
         boolean sairDoMenuDeOperacoes = false;
        Scanner scanner = new Scanner(System.in);
         while (!sairDoMenuDeOperacoes) {
-           
+          
             System.out.println("Escolha a operação:");
                 System.out.println("1. Depósito");
                 System.out.println("2. Saque");
                 System.out.println("3. Transação");
                 System.out.println("4. Ver informações");
-                System.out.println("5. Sair"); 
-            
+                System.out.println("5. pagamentos"); 
+                System.out.println("6 ver extrato"); 
+                System.out.println("7.investimentos"); 
+                System.out.println("8. sair"); 
+                            
             int opcaoOperacoes = solicitarOpcao(sc);
-
+   try{
             switch (opcaoOperacoes) {
                 case 1:
                     System.out.print("Digite o valor do depósito: ");
@@ -304,14 +248,18 @@ public class GerenciarConta {
                     System.out.println("Saque realizado com sucesso.");
                     break;
              case 3:
-                 System.out.print("Digite o valor da transação: ");
-                    double valorTransacao = scanner.nextDouble();
-                    Transacao(null, valorTransacao, null);
-
+             System.out.print("Digite o valor da transação: ");
+             double valorTransacao = scanner.nextDouble();
+             Transacoes(valorTransacao, contaOperacao);           
+  
               break;
                 case 4:
-                 System.out.println("valor do investimento");
-                investimentos.calcularRetornoInvestido(contaOperacao);
+               System.out.println("nome"+contaOperacao.getUsuario().getNome());
+               System.out.println("cpf"+contaOperacao.getUsuario().getCpf());
+               System.out.println("endereco"+contaOperacao.getUsuario().getEndereco());
+               System.out.println("login"+contaOperacao.getLogin());
+               System.out.println("saldo"+contaOperacao.getSaldo());
+               
 
                 break;
                 case 5: 
@@ -326,6 +274,12 @@ public class GerenciarConta {
 
                 break;
                 case 7:
+                  System.out.println("valor do investimento");
+                investimentos.calcularRetornoInvestido(contaOperacao);
+
+                
+                break;
+                case 8:
                     sairDoMenuDeOperacoes = false; 
                   return sairDoMenuDeOperacoes;
 
@@ -333,11 +287,21 @@ public class GerenciarConta {
                     System.out.println("Opção inválida.");
                     break;
             }
+        } catch (ValorInvalidoException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } catch (SaldoInsuficienteException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } catch (ContaNaoExisteException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } catch (InputMismatchException e) {
+                System.out.println("Erro: Entrada inválida. Certifique-se de digitar um número válido.");
      
         }
-     scanner.close();
-        return sairDoMenuDeOperacoes;
-       
+ 
+    }
+    scanner.close();
+    return sairDoMenuDeOperacoes;
+    
     }
 
     private static int solicitarOpcao(Scanner sc) {
@@ -346,11 +310,21 @@ public class GerenciarConta {
       
     }
 
+    public boolean naoRepetirCodigo(int codigo){
+        for(ContaBancaria conta:contas){
+            if(conta.getCodigo()==codigo){
+                return true;
+            }
+        
+        }
+        return false;
+    }
+   
     @Override
     public String toString() {
         return "GerenciarConta [contas=" + contas + "]";
     }
 
-
+ 
     
 }
