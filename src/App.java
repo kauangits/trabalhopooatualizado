@@ -6,7 +6,7 @@ import java.util.Scanner;
 
     private static void exibirMenu() {
         System.out.println("------------Menu do Banco ENRIKAR------------\n");
-        System.out.println("Digite 1 para Cadastar-se\nDigite 2 para criar sua conta\nDigite 3 para entrar na sua conta\nDigite 4 para poder realizar operações\nDigite 5 sua conta para sair ou encerrar sua conta\n");
+        System.out.println("Digite 1 para Cadastar-se\nDigite 2 para criar sua conta\nDigite 3 para entrar na sua conta\nDigite 4 para poder realizar operações\nDigite 5 encerrar sua conta\nDigite 6 sair da conta\ndigite 7 para info\ndigite 8 para ir ao suporte\nDigite 9 encerrar");
     }
 
     private static int solicitarOpcao(Scanner sc) {
@@ -22,17 +22,21 @@ CadastroUsuario usuari = new CadastroUsuario();
 Gerente g1 = new Gerente("234433", "carlos", "123", "12042004", "gerente", null);
 GerenciarConta geren1 = new GerenciarConta(g1);
 AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
- ContaBancaria contaAtual = null;
+SuporteAoCliente suporte = new SuporteAoCliente();
+
+ContaBancaria contaAtual = null;
  boolean estaLogado = false;
  boolean sairDoMenuPrincipal = false;
-       while(!sairDoMenuPrincipal){
+     
+ while(!sairDoMenuPrincipal){
      exibirMenu();
       Scanner sc = new Scanner(System.in);
      int opcao=solicitarOpcao(sc);
             switch (opcao) {
                 case 1:
-               
+              if(!estaLogado){
                 usuari.Cadastro();
+              }
                     break;
                 case 2:
              
@@ -43,37 +47,40 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
               System.out.println("digite o codigo da conta");
               int codigo = sc.nextInt();
               System.out.println("digite senha");
-                int senha = sc.nextInt();
+                int senha = obterSenhaNumericaComPeloMenos4Digitos(sc);
                 System.out.println("digite o login");
                 String login = sc.next();    
          
-                 if(!geren1.naoRepetirCodigo(codigo)){
+                 if (!geren1.naoRepetirCodigo(codigo)){
             
               ContaBancaria novaconta = new ContaBancaria(codigo, login, senha, usuariopelonome);
             
-                if(geren1.getQuantidadeDeContas()<2){
+                if(geren1.getQuantidadeDeContas()==0){
               geren1.criarConta(novaconta);
               contaAtual=novaconta;
            System.out.println("cria a primeira conta");
              
             }else{
               if(geren1.loginDiferente(login)&&geren1.senhaDiferente(senha)&&geren1.codigoDiferente(codigo)){
+              System.out.println("entrou");
                 geren1.criarConta(novaconta);
              System.out.println("conta criada");
              contaAtual = novaconta; 
             }else{
-                System.out.println("mesmo login");
+                System.out.println("nao foi criado");
               }
             
              }
             
-            }
+            
             }else{
                 System.out.println("usuario nao encontrado");
             }
+      
+          }else{
+            System.out.println("nao tem usuario");
+          }
           
-           
-           
             break;
                   case 3:
                 if(contaAtual!=null){
@@ -105,15 +112,7 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
                 System.out.println("nao existe nenhuma conta");
              }
              break;
-               /*   if(autorizaçao.caso){
-               System.out.println("digite o codigo da conta");
-               int cont = sc.nextInt();
-               ContaBancaria contaBancaria = geren1.encontrarConta(cont);
-               geren1.realizarOperacoes(contaBancaria);
-               }else{
-                System.out.println("voce nao entrou na conta");
-               }
-               break;*/
+              
         case 5: 
         if(contaAtual==null)
         System.out.println("encerrar conta");
@@ -138,15 +137,17 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
        case 7:
          System.out.println(geren1.toString());
        break;
+      
        case 8:
-       
+    
+       if(estaLogado==true){
+       suporte.mandarMensagem();
+         
+       }
        break;
-         case 9:
-       
-       break;
+     
 
-
-       case 10:
+       case 9:
                     System.out.println("Saindo do programa.");
                     System.exit(0);
                     break;
@@ -163,44 +164,27 @@ AutorizacaoSeguranca autorizaçao = new AutorizacaoSeguranca();
        
                
     }
-
-    /*Scanner scanner = new Scanner(System.in);
-
-
-    ,klkjhkjhjgg
-        while (true) {
-            try {
-                System.out.println("Escolha a operação:");
-                System.out.println("1. Depósito");
-                System.out.println("2. Saque");
-                System.out.println("3. Transação");
-                System.out.println("4. Sair");
-
-                int escolha = scanner.nextInt();
-
-                if (escolha == 1) {
-                    System.out.print("Digite o valor do depósito: ");
-                    double valor = scanner.nextDouble();
-                    depositar(valor);
-                } else if (escolha == 2) {
-                    System.out.print("Digite o valor do saque: ");
-                    double valor = scanner.nextDouble();
-                    sacar(valor);
-                } else if (escolha == 3) {
-                    System.out.print("Digite o valor da transação: ");
-                    double valor = scanner.nextDouble();
-                    Transacao(null, valor, null);
-                } else if (escolha == 4) {
-                    break;
-                } else {
-                    System.out.println("Opção inválida. Tente novamente.");
-                }
-            } catch (ValorInvalidoException | SaldoInsuficienteException | ContaNaoExisteException e) {
-                System.err.println("Erro: " + e.getMessage());
-            }
-        }
-
-        scanner.close();*/
+      
 }
+public static int obterSenhaNumericaComPeloMenos4Digitos(Scanner sc) {
+  int senha;
+  do {
+      System.out.print("Digite sua senha (pelo menos 4 dígitos): ");
+      senha = sc.nextInt();
+  } while (contaDigitos(senha) < 4);
+
+  return senha;
+}
+
+public static int contaDigitos(int numero) {
+  int contagem = 0;
+  while (numero > 0) {
+      numero /= 10; 
+      contagem++;
+  }
+  return contagem;
+}
+
+
 }
 

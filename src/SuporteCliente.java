@@ -1,44 +1,18 @@
 
-    /*import java.util.ArrayList;
-import java.util.List;
+    
+import java.util.Scanner;
 
-public class SuporteAoCliente {
-    private List<SolicitacaoDeSuporte> solicitacoes;
 
-    public SuporteAoCliente() {
-        solicitacoes = new ArrayList<>();
+class SuporteAoCliente {
+
+Scanner sc = new Scanner(System.in);
+    public void mandarMensagem(){
+   String m = sc.nextLine();
+   System.out.println("mensagem do usuario da conta"+m);
+   System.out.println("recebemos sua sugestao");
     }
 
-    public void criarSolicitacao(String descricaoProblema, String conta) {
-        SolicitacaoDeSuporte solicitacao = new SolicitacaoDeSuporte(descricaoProblema, conta);
-        solicitacoes.add(solicitacao);
-    }
 
-    public void atribuirAgente(int numeroTicket, String agente) {
-        for (SolicitacaoDeSuporte solicitacao : solicitacoes) {
-            if (solicitacao.getNumeroTicket() == numeroTicket) {
-                solicitacao.setAgenteResponsavel(agente);
-                return;
-            }
-        }
-        System.out.println("Solicitação não encontrada.");
-    }
 
-    public void responderSolicitacao(int numeroTicket, String resposta) {
-        for (SolicitacaoDeSuporte solicitacao : solicitacoes) {
-            if (solicitacao.getNumeroTicket() == numeroTicket) {
-                solicitacao.adicionarResposta(resposta);
-                return;
-            }
-        }
-        System.out.println("Solicitação não encontrada.");
-    }
 
-    public void listarSolicitacoes() {
-        for (SolicitacaoDeSuporte solicitacao : solicitacoes) {
-            System.out.println(solicitacao);
-        }
-    }
-
-*/
-
+}

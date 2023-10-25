@@ -85,6 +85,10 @@ public class GerenciarConta {
         return false;
     }
 
+   
+
+
+
     public boolean senhaDiferente(int senha) {
         for (ContaBancaria c : contas) {
             if (c.getSenha()==senha) {
@@ -197,11 +201,18 @@ public List<Transacoes> histransacoes = new ArrayList<>();
 
 
     public void Extrato(ContaBancaria conta,double valorAgua,double valorEnergia,double valorInternet) {
-     if(valorAgua==0.0){
+        System.out.println("Extrato da conta do:" + conta.getLogin()); 
+        for (Transacoes transacoes : histransacoes) { 
+            System.out.println(transacoes.toString()); 
+        }
+   
+        if(valorAgua==0.0){
         System.out.println("valor de agua nao foi pago");
      }else{
-        System.out.println("valor da conta de agua paga"+valorAgua);
-     }
+       
+        String resultadoFormatado = String.format("%.2f",valorAgua);
+        System.out.println("valor da agua"+resultadoFormatado);
+    }
        if(valorEnergia==0.0){
         System.out.println("valor de energia nao foi pago");
      }else{
@@ -214,7 +225,7 @@ public List<Transacoes> histransacoes = new ArrayList<>();
      }else{ 
           System.out.println("valor de internet"+valorInternet);
      }
-  System.out.println("saldo atual"+conta.getSaldo()); 
+  System.out.println("saldo atual:"+conta.getSaldo()); 
         
     }
     public boolean realizarOperacoes(ContaBancaria contaOperacao,Scanner sc)throws SaldoInsuficienteException, ValorInvalidoException,ContaNaoExisteException {

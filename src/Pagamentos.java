@@ -1,10 +1,10 @@
 
-import java.util.Random;
+
 import java.util.Scanner;
 
 public class Pagamentos {
-     private Random random;
-     private double ultimoValorPago;
+    
+     
     private double valorAgua;
     private double valorEnergia;
  
@@ -27,13 +27,13 @@ public class Pagamentos {
     }
 
     public Pagamentos() {
-        random = new Random();
-        ultimoValorPago = 0.0;
+    
+    
     }
 
     public double pagarAgua(ContaBancaria contaPagar) {
    
-        double valor = 20 + random.nextDouble() * 80;
+        double valor = 80;
       
        
         if(contaPagar.getSaldo()>=valor){
@@ -48,7 +48,7 @@ public class Pagamentos {
 
 
     public double pagarEnergia( ContaBancaria contaPagar) {
-        double valor = 50 + random.nextDouble() * 150;
+        double valor = 100;
     
 
         if(contaPagar.getSaldo()>=valor){
@@ -62,8 +62,9 @@ public class Pagamentos {
 
  
     public double pagarInternet(ContaBancaria contaPagar) {
-        double valor = 30 + random.nextDouble() * 70;
-     
+        double valor = 50;
+      
+
 
         if(contaPagar.getSaldo()>=valor){
           contaPagar.setSaldo(contaPagar.getSaldo()-valor);
@@ -74,9 +75,7 @@ public class Pagamentos {
         }
     }
 
-    public double getUltimoValorPago() {
-        return ultimoValorPago;
-    }
+   
  Scanner sc = new Scanner(System.in);
     public boolean menuPagamentos(ContaBancaria conta){
         boolean sairDoMenuDePagamentos = false;
@@ -94,9 +93,10 @@ public class Pagamentos {
             case 1:
 
                     pagarAgua(conta);
-                     System.out.println("saldo"+conta.getSaldo());
-                       valorAgua = pagarAgua(conta);
-                     System.out.println("valor da conta de Agua"+valorAgua);
+                     System.out.println("saldo da sua conta"+conta.getSaldo());
+                      
+                     valorAgua = pagarAgua(conta);
+                      
                      break;
             case 2:
                
@@ -105,14 +105,14 @@ public class Pagamentos {
                 pagarEnergia(conta);
                System.out.println("Saldo restante na conta: " + conta.getSaldo());
                   valorEnergia = pagarEnergia(conta);
-                     System.out.println("valor da conta de energia"+valorEnergia);
+                  
                
                break;
             case 3:
                 pagarInternet(conta);
                     System.out.println("Saldo restante na conta: " + conta.getSaldo());
                  valorInternet = pagarInternet(conta);
-                     System.out.println("valor da conta de internet"+valorInternet);
+                    
                 break;
 
             case 4:

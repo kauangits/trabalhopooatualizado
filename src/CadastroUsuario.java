@@ -27,12 +27,13 @@ public class CadastroUsuario  {
     public void Cadastro(){
    
     System.out.println("Digite seu nome completo");
-        String nome = teclado.nextLine();
+        
+    String nome = teclado.nextLine();
        System.out.println("Digite sua data de nascimento");
         String nascimento = teclado.nextLine();
         validarDataNascimento(nascimento);
         System.out.println("Digite seu endereço");
-        String  endereco = teclado.nextLine();
+        String endereco = teclado.nextLine();
       System.out.println("Digite seu cpf");
       String Cpf = teclado.nextLine();
    while(validarDataNascimento(nascimento)==false){
@@ -56,7 +57,7 @@ public class CadastroUsuario  {
    }
 
 
-        if((!existirUsuarioCpf(Cpf))&&(!existirUsuarioEndereco(endereco))&&(!existirUsuarioNome(nome))){
+        if((!existirUsuarioCpf(Cpf))&&(!existirUsuarioNome(nome))){
       Usuario usuario = new Usuario(Cpf, nome, endereco, nascimento);
    
       usuarios.add(usuario);

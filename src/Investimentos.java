@@ -71,40 +71,5 @@ public class Investimentos {
         }
   
     }
- //  aumento=valorFuturo*taxa
-  // aumento*30   setsaldo(getsaldo+aumento) 
-    
-//valorFuturo += valorFuturo * (taxaDeRetornoDiaria / 100.0);
-
-        /* 
-    public void calcularRetornoInvestido(int prazoDeDias, double taxaDeRetornoDiaria, ContaBancaria conta) throws InvestimentoInvalidoException {
-        Scanner sc = new Scanner(System.in);
-        
-        if (conta.getSaldo() >= 0) {
-            System.out.print("Digite o valor do investimento: ");
-            double valorInvestimento = sc.nextDouble();
-    
-            if (valorInvestimento >= 0) {
-                double valorFuturo = valorInvestimento;
-    
-                for (int dia = 0; dia < prazoDeDias; dia++) {
-                    valorFuturo += valorFuturo * taxaDeRetornoDiaria;
-                }
-                
-                atualizarSaldo(valorFuturo);
-                System.out.println("Saldo com o investimento: " + conta.getSaldo());
-            } else {
-                throw new InvestimentoInvalidoException("Não é possível investir um valor negativo.");
-            }
-        } else {
-            throw new InvestimentoInvalidoException("Não pode investir se não tem saldo.");
-        }
-    }*/
-
-    /*public class InvestimentoInvalidoException extends Exception {
-    public InvestimentoInvalidoException(String message) {
-        super(message);
-    }
-} */
-
+ 
 }

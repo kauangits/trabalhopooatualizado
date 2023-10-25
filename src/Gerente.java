@@ -1,6 +1,5 @@
 
 public class Gerente extends Pessoa{
-//classe gerente só vai chamar os métodos de GerenciarConta
     private String cargo;
     private GerenciarConta gerencia;
   
